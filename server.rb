@@ -12,7 +12,7 @@ end
 
 get '/contacts/:id' do
   id = params["id"]
-  @contact = Contact.find_by(id: "#{id}")
+  @contact = Contact.find(id)
   erb :show
 end
 
@@ -32,4 +32,20 @@ post '/new' do
   )
 
   redirect '/'
+end
+
+post '/' do
+  first_name = params["first_name"]
+  last_name = params["last_name"]
+
+  @contact = Contact.where(
+    first_name: first_name,
+    last_name: last_name
+  )[0]
+
+  if @contact
+    erb :show
+  else
+    erb :index
+  end
 end
